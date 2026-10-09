@@ -14,14 +14,14 @@
     <h1>Lista de usuarios</h1>
     <p>Miguel López</p>
     <p>Página del servidor de práctica. Muestra los usuarios.</p>
-    <button id="ver">Ver usuarios</button>
+    <button id="ver">Recargar usuarios</button>
     <ul id="lista"></ul>
 
     <script>
       const boton = document.getElementById("ver");
       const lista = document.getElementById("lista");
 
-      boton.addEventListener("click", async () => {
+      async function cargarUsuarios() {
         try {
           const respuesta = await fetch("/usuarios");
 
@@ -43,7 +43,11 @@
           li.textContent = "No se pudieron obtener los usuarios";
           lista.appendChild(li);
         }
-      });
+      }
+
+      cargarUsuarios();
+
+      boton.addEventListener("click", cargarUsuarios);
     </script>
   </body>
 </html>
