@@ -2,21 +2,39 @@
 
 Es la práctica del servidor. Devuelve usuarios y productos en JSON, y en la página principal se ve el HTML.
 
+## Tecnologías utilizadas
+
+- Node.js, con el módulo `http` (sin Express)
+- JavaScript
+- HTML y CSS
+- `fetch` en el navegador
+- Postman para probar los endpoints
+- GitHub y Render para publicarlo
+
+## URL pública
+
+https://practica-servidor.onrender.com
+
+- https://practica-servidor.onrender.com/usuarios
+- https://practica-servidor.onrender.com/usuarios/1
+- https://practica-servidor.onrender.com/productos
+
 ## Instalación
 
 Hay que tener Node instalado. No he instalado nada más.
 
 ## Ejecución
 
-Dentro de la carpeta del proyecto:
+Desde la raíz del repositorio:
 
+    cd tarea-1-servidor
     node server.js
 
 Si sale Servidor en http://localhost:3000, ya está. Se abre esa dirección en el navegador. Para pararlo, Ctrl+C en la terminal.
 
 ## Endpoints
 
-- GET / enseña la página.
+- GET / enseña la página. La lista de usuarios se carga sola al abrirla, y el botón la recarga.
 - GET /usuarios devuelve a Juan, Maria y Pedro. Código 200.
 - GET /usuarios/2 devuelve a Maria. Código 200.
 - GET /usuarios/99 no está en la lista, así que devuelve Usuario no encontrado y un 404.
@@ -37,6 +55,4 @@ Casi todo era nuevo. Empecé por JavaScript: una lista de usuarios, una función
 
 El código se escribe en VS Code y se ejecuta en la terminal con node. La terminal también sirve para parar el servidor con Ctrl+C.
 
-Después el fetch, con async y await, para pedir datos a una API. Luego el servidor: GET /usuarios devuelve la lista, GET /usuarios/2 devuelve a una persona y si el id no existe responde 404. La página HTML la sirve el mismo servidor, y el botón pide /usuarios y pinta los nombres. Al principio no salían porque abrí el HTML con Live Server, en el puerto 5500, y no en localhost:3000.
-
-También añadí /productos y lo probé en Postman, mirando el 200 y el 404 del usuario 99.
+Después el fetch, con
