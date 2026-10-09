@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Usuarios</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Lista de usuarios</h1>
+    <p>Miguel López</p>
+    <p>Página del servidor de práctica. Muestra los usuarios.</p>
+    <button id="ver">Ver usuarios</button>
+    <ul id="lista"></ul>
+
+    <script>
+      const boton = document.getElementById("ver");
+      const lista = document.getElementById("lista");
+
+      boton.addEventListener("click", async () => {
+        try {
+          const respuesta = await fetch("/usuarios");
+
+          if (!respuesta.ok) {
+            throw new Error("Error HTTP " + respuesta.status);
+          }
+
+          const usuarios = await respuesta.json();
+          lista.innerHTML = "";
+
+          usuarios.forEach((usuario) => {
+            const li = document.createElement("li");
+            li.textContent = usuario.nombre;
+            lista.appendChild(li);
+          });
+        } catch (error) {
+          lista.innerHTML = "";
+          const li = document.createElement("li");
+          li.textContent = "No se pudieron obtener los usuarios";
+          lista.appendChild(li);
+        }
+      });
+    </script>
+  </body>
+</html>
