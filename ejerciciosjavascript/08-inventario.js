@@ -9,10 +9,8 @@ function listarDisponibles() {
 }
 
 function buscarProducto(id) {
-  return productos.find((producto) => producto.id === id);
+  return productos.find((producto) => producto.id === id) || null;
 }
 
 console.log(listarDisponibles());
 console.log(buscarProducto(1));
-
-

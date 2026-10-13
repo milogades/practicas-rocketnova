@@ -23,22 +23,18 @@ function buscarUsuario(id) {
 }
 
 function buscarPorNombre(nombre) {
-    const encontrado = usuarios.find((usuario) => usuario.nombre == nombre);
-    if(!encontrado) {
-        return null
-    }
-    return encontrado;
-}
-
-function buscarPorNombre1(nombre) {
-  return usuarios.filter((usuario) => usuario.nombre === nombre);
+  const encontrado = usuarios.find((usuario) => usuario.nombre === nombre);
+  if (!encontrado) {
+    return null;
+  }
+  return encontrado;
 }
 
 function crearUsuario(nombre, edad) {
   if (!nombre) {
     return "Falta el nombre";
   }
-  if (edad < 0) {
+  if (typeof edad !== "number" || edad < 0) {
     return "La edad no puede ser negativa";
   }
 

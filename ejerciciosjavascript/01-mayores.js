@@ -5,7 +5,7 @@ const usuarios = [
   { nombre: "Ana", edad: 16 }
 ];
 
-function mayoresDeEdad (lista){
+function mayoresDeEdad(lista) {
     return lista.filter((usuario) => usuario.edad >= 18);
 }
 

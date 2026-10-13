@@ -8,4 +8,4 @@ function totalCompra(lista){
     return lista.reduce((total,producto) => total + producto.precio * producto.cantidad, 0);
 }
 
-console.log("Total: " + totalCompra(productos) + "G");
+console.log("Total: " + totalCompra(productos) + " Gs");

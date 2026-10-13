@@ -4,8 +4,8 @@ const productos = [
   { nombre: "Hamburguesa", precio: 25000, cantidad: 1 }
 ];
 
-function aplicarDescuento(productos, porcentaje) {
-  return productos.map((producto) => {
+function aplicarDescuento(lista, porcentaje) {
+  return lista.map((producto) => {
     return {
       nombre: producto.nombre,
       precio: producto.precio - (producto.precio * porcentaje) / 100,

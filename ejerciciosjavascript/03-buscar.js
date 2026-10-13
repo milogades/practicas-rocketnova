@@ -5,7 +5,7 @@ const usuarios = [
 ];
 
 function buscarUsuario(id) {
-    const encontrado = usuarios.find((usuario) => usuario.id == id);
+    const encontrado = usuarios.find((usuario) => usuario.id === id);
     if(!encontrado){
         return null;
     }

@@ -17,12 +17,12 @@ function buscarUsuario(id) {
   return encontrado;
 }
 
-
+// GET /usuarios: devuelve la lista
 app.get("/usuarios", (req, res) => {
   res.status(200).json(usuarios);
 });
 
-
+// GET /usuarios/:id: devuelve una ficha, o 404 si no existe
 app.get("/usuarios/:id", (req, res) => {
   const id = Number(req.params.id);
   const usuario = buscarUsuario(id);
@@ -34,7 +34,7 @@ app.get("/usuarios/:id", (req, res) => {
   res.status(200).json(usuario);
 });
 
-
+// POST /usuarios: crea un usuario nuevo
 app.post("/usuarios", (req, res) => {
   const nombre = req.body.nombre;
   const edad = req.body.edad;
@@ -42,7 +42,7 @@ app.post("/usuarios", (req, res) => {
   if (!nombre) {
     return res.status(400).json({ error: "Falta el nombre" });
   }
-  if (edad < 0) {
+  if (typeof edad !== "number" || edad < 0) {
     return res.status(400).json({ error: "La edad no puede ser negativa" });
   }
 
@@ -59,6 +59,7 @@ app.post("/usuarios", (req, res) => {
   res.status(201).json(nuevo);
 });
 
+// PUT /usuarios/:id: modifica un usuario existente
 app.put("/usuarios/:id", (req, res) => {
   const id = Number(req.params.id);
   const usuario = buscarUsuario(id);
@@ -73,7 +74,7 @@ app.put("/usuarios/:id", (req, res) => {
   if (!nombre) {
     return res.status(400).json({ error: "Falta el nombre" });
   }
-  if (edad < 0) {
+  if (edad !== undefined && (typeof edad !== "number" || edad < 0)) {
     return res.status(400).json({ error: "La edad no puede ser negativa" });
   }
 
@@ -85,6 +86,7 @@ app.put("/usuarios/:id", (req, res) => {
   res.status(200).json(usuario);
 });
 
+// DELETE /usuarios/:id: borra un usuario
 app.delete("/usuarios/:id", (req, res) => {
   const id = Number(req.params.id);
   const usuario = buscarUsuario(id);
