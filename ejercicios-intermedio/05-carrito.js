@@ -1,6 +1,5 @@
 const carrito = [];
 
-// Agregar producto
 function agregarProducto(nombre, precio, cantidad) {
   const existente = carrito.find((producto) => producto.nombre === nombre);
 
@@ -14,7 +13,6 @@ function agregarProducto(nombre, precio, cantidad) {
   return nuevo;
 }
 
-// Eliminar producto
 function eliminarProducto(nombre) {
   const indice = carrito.findIndex((producto) => producto.nombre === nombre);
 
@@ -27,7 +25,6 @@ function eliminarProducto(nombre) {
   return eliminado;
 }
 
-// Modificar cantidad
 function modificarCantidad(nombre, cantidad) {
   const producto = carrito.find((producto) => producto.nombre === nombre);
 
@@ -42,17 +39,14 @@ function modificarCantidad(nombre, cantidad) {
   return producto;
 }
 
-// Vaciar carrito
 function vaciarCarrito() {
   carrito.length = 0;
 }
 
-// Calcular subtotal
 function calcularSubtotal() {
   return carrito.reduce((total, producto) => total + producto.precio * producto.cantidad, 0);
 }
 
-// Calcular descuento (las reglas del ejercicio 4)
 function calcularDescuento(subtotal) {
   let porcentaje;
 
@@ -69,14 +63,12 @@ function calcularDescuento(subtotal) {
   return subtotal * porcentaje / 100;
 }
 
-// Calcular total
 function calcularTotal() {
   const subtotal = calcularSubtotal();
   const descuento = calcularDescuento(subtotal);
   return subtotal - descuento;
 }
 
-// Mostrar el carrito
 function mostrarCarrito() {
   console.log(carrito);
   console.log("Subtotal: " + calcularSubtotal() + " Gs");
@@ -85,7 +77,6 @@ function mostrarCarrito() {
   console.log("-----");
 }
 
-// Pruebas
 agregarProducto("Pizza", 30000, 2);
 agregarProducto("Coca-Cola", 10000, 3);
 agregarProducto("Hamburguesa", 25000, 1);
