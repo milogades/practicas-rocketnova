@@ -1,0 +1,111 @@
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
+
+const usuarios = [
+  { id: 1, nombre: "Ana", email: "ana@correo.com", edad: 28 },
+  { id: 2, nombre: "Luis", email: "luis@correo.com", edad: 34 },
+  { id: 3, nombre: "Marta", email: "marta@correo.com", edad: 22 },
+  { id: 4, nombre: "Pedro", email: "pedro@correo.com", edad: 41 },
+  { id: 5, nombre: "Lucía", email: "lucia@correo.com", edad: 19 }
+];
+
+const productos = [
+  { id: 1, nombre: "Pizza margarita", categoria: "comidas", precio: 45000 },
+  { id: 2, nombre: "Coca-Cola 1L", categoria: "bebidas", precio: 12000 },
+  { id: 3, nombre: "Hamburguesa completa", categoria: "comidas", precio: 35000 },
+  { id: 4, nombre: "Agua mineral", categoria: "bebidas", precio: 6000 },
+  { id: 5, nombre: "Pizza cuatro quesos", categoria: "comidas", precio: 52000 },
+  { id: 6, nombre: "Helado de vainilla", categoria: "postres", precio: 15000 },
+  { id: 7, nombre: "Cerveza", categoria: "bebidas", precio: 18000 }
+];
+
+const servidor = http.createServer((req, res) => {
+  const ahora = new Date();
+  const fecha = ahora.toLocaleDateString("es-ES");
+  const hora = ahora.toLocaleTimeString("es-ES");
+  console.log(`${req.method} ${req.url} - ${fecha} ${hora}`);
+
+  const url = new URL(req.url, "http://localhost:3000");
+  const ruta = url.pathname;
+
+  if (ruta === "/") {
+    const rutaArchivo = path.join(__dirname, "public", "index.html");
+
+    fs.readFile(rutaArchivo, (err, contenido) => {
+      if (err) {
+        res.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
+        res.end("Error al leer el archivo");
+        return;
+      }
+
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      res.end(contenido);
+    });
+  } else if (ruta === "/usuarios") {
+    res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+    res.end(JSON.stringify(usuarios));
+  } else if (ruta.startsWith("/usuarios/")) {
+    const id = Number(ruta.split("/")[2]);
+    const usuario = usuarios.find((u) => u.id === id);
+
+    if (usuario) {
+      res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+      res.end(JSON.stringify(usuario));
+    } else {
+      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+      res.end("404 - Usuario no encontrado");
+    }
+  } else if (ruta === "/productos") {
+    const categoria = url.searchParams.get("categoria");
+    const precioMax = url.searchParams.get("precioMax");
+
+    let resultado = productos;
+
+    if (categoria) {
+      resultado = resultado.filter((p) => p.categoria === categoria);
+    }
+
+    if (precioMax) {
+      resultado = resultado.filter((p) => p.precio <= Number(precioMax));
+    }
+
+    res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+    res.end(JSON.stringify(resultado));
+  } else if (ruta.startsWith("/productos/")) {
+    const id = Number(ruta.split("/")[2]);
+    const producto = productos.find((p) => p.id === id);
+
+    if (producto) {
+      res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+      res.end(JSON.stringify(producto));
+    } else {
+      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+      res.end("404 - Producto no encontrado");
+    }
+  } else if (ruta === "/buscar") {
+    const nombre = url.searchParams.get("nombre");
+
+    if (!nombre) {
+      res.writeHead(400, { "Content-Type": "text/plain; charset=utf-8" });
+      res.end("400 - Falta el parámetro nombre");
+      return;
+    }
+
+    const texto = nombre.toLowerCase();
+    const encontrados = productos.filter((p) => p.nombre.toLowerCase().includes(texto));
+
+    res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+    res.end(JSON.stringify(encontrados));
+  } else if (ruta === "/contacto") {
+    res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+    res.end("Página de contacto de RocketNova");
+  } else {
+    res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+    res.end("404 - Página no encontrada");
+  }
+});
+
+servidor.listen(3000, () => {
+  console.log("Servidor escuchando en http://localhost:3000");
+});
