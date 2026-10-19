@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "nombre": "Ana",
+    "email": "ana@correo.com",
+    "edad": 28
+  },
+  {
+    "id": 2,
+    "nombre": "Luis",
+    "email": "luis@correo.com",
+    "edad": 34
+  },
+  {
+    "id": 3,
+    "nombre": "Marta",
+    "email": "marta@correo.com",
+    "edad": 22
+  },
+  {
+    "id": 4,
+    "nombre": "Pedro",
+    "email": "pedro@correo.com",
+    "edad": 41
+  },
+  {
+    "id": 5,
+    "nombre": "Lucía",
+    "email": "lucia@correo.com",
+    "edad": 19
+  },
+  {
+    "id": 6,
+    "nombre": "Carlos",
+    "email": "carlos@correo.com",
+    "edad": 30
+  }
+]
