@@ -1,0 +1,16 @@
+{
+  "name": "29-api-productos",
+  "version": "1.0.0",
+  "description": "API REST de productos con Express: CRUD, validaciones, middleware, errores, búsqueda, filtros y paginación",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Miguel López León",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
