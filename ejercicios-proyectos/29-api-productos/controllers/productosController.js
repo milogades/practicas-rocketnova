@@ -51,4 +51,48 @@ function obtener(req, res, next) {
   res.json({ success: true, datos: producto });
 }
 
-module.exports = { listar, obtener };
+// POST /productos
+function crear(req, res) {
+  const { nombre, categoria, precio } = req.body;
+
+  const nuevoId = productos.reduce((max, p) => (p.id > max ? p.id : max), 0) + 1;
+
+  const nuevo = { id: nuevoId, nombre: nombre.trim(), categoria, precio };
+  productos.push(nuevo);
+
+  res.status(201).json({ success: true, datos: nuevo });
+}
+
+// PUT /productos/:id
+function actualizar(req, res, next) {
+  const id = Number(req.params.id);
+  const producto = productos.find((p) => p.id === id);
+
+  if (!producto) {
+    return next(crearError(404, "Producto no encontrado"));
+  }
+
+  const { nombre, categoria, precio } = req.body;
+
+  if (nombre !== undefined) producto.nombre = nombre.trim();
+  if (categoria !== undefined) producto.categoria = categoria;
+  if (precio !== undefined) producto.precio = precio;
+
+  res.json({ success: true, datos: producto });
+}
+
+// DELETE /productos/:id
+function eliminar(req, res, next) {
+  const id = Number(req.params.id);
+  const indice = productos.findIndex((p) => p.id === id);
+
+  if (indice === -1) {
+    return next(crearError(404, "Producto no encontrado"));
+  }
+
+  const eliminado = productos.splice(indice, 1)[0];
+
+  res.json({ success: true, mensaje: "Producto eliminado", datos: eliminado });
+}
+
+module.exports = { listar, obtener, crear, actualizar, eliminar };

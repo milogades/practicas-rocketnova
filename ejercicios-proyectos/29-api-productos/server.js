@@ -6,14 +6,21 @@ const { rutaNoEncontrada, manejarErrores } = require("./middlewares/errores");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+
 app.use(logger);
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json({
     success: true,
     mensaje: "API de productos funcionando",
-    endpoints: ["/productos", "/productos/:id"]
+    endpoints: [
+      "GET /productos",
+      "GET /productos/:id",
+      "POST /productos",
+      "PUT /productos/:id",
+      "DELETE /productos/:id"
+    ]
   });
 });
 

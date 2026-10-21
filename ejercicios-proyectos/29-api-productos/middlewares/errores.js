@@ -5,6 +5,10 @@ function rutaNoEncontrada(req, res, next) {
 }
 
 function manejarErrores(err, req, res, next) {
+  if (err.type === "entity.parse.failed") {
+    return res.status(400).json({ success: false, error: "El JSON enviado no es válido" });
+  }
+
   const status = err.status || 500;
   const mensaje = status === 500 ? "Error interno del servidor" : err.message;
 
