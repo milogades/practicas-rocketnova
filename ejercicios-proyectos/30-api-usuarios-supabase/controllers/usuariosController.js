@@ -1,4 +1,13 @@
 const supabase = require("../config/supabase");
+const crearError = require("../utils/crearError");
+
+// Traduce los errores de la base de datos que sabemos manejar
+function traducirError(error) {
+  if (error.code === "23505") {
+    return crearError(409, "Ese email ya está registrado");
+  }
+  return error;
+}
 
 // GET /usuarios
 async function listar(req, res, next) {
@@ -18,4 +27,102 @@ async function listar(req, res, next) {
   }
 }
 
-module.exports = { listar };
+// GET /usuarios/:id
+async function obtener(req, res, next) {
+  try {
+    const { data, error } = await supabase
+      .from("usuarios")
+      .select("*")
+      .eq("id", req.id)
+      .maybeSingle();
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data) {
+      throw crearError(404, "Usuario no encontrado");
+    }
+
+    res.json({ success: true, datos: data });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// POST /usuarios
+async function crear(req, res, next) {
+  try {
+    const { nombre, email } = req.body;
+
+    const { data, error } = await supabase
+      .from("usuarios")
+      .insert({ nombre: nombre.trim(), email: email.trim().toLowerCase() })
+      .select()
+      .single();
+
+    if (error) {
+      throw traducirError(error);
+    }
+
+    res.status(201).json({ success: true, datos: data });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// PUT /usuarios/:id
+async function actualizar(req, res, next) {
+  try {
+    const { nombre, email } = req.body;
+    const cambios = {};
+
+    if (nombre !== undefined) cambios.nombre = nombre.trim();
+    if (email !== undefined) cambios.email = email.trim().toLowerCase();
+
+    const { data, error } = await supabase
+      .from("usuarios")
+      .update(cambios)
+      .eq("id", req.id)
+      .select()
+      .maybeSingle();
+
+    if (error) {
+      throw traducirError(error);
+    }
+
+    if (!data) {
+      throw crearError(404, "Usuario no encontrado");
+    }
+
+    res.json({ success: true, datos: data });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// DELETE /usuarios/:id
+async function eliminar(req, res, next) {
+  try {
+    const { data, error } = await supabase
+      .from("usuarios")
+      .delete()
+      .eq("id", req.id)
+      .select()
+      .maybeSingle();
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data) {
+      throw crearError(404, "Usuario no encontrado");
+    }
+
+    res.json({ success: true, mensaje: "Usuario eliminado", datos: data });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { listar, obtener, crear, actualizar, eliminar };

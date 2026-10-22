@@ -15,7 +15,13 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     mensaje: "API de usuarios con Supabase funcionando",
-    endpoints: ["GET /usuarios"]
+    endpoints: [
+      "GET /usuarios",
+      "GET /usuarios/:id",
+      "POST /usuarios",
+      "PUT /usuarios/:id",
+      "DELETE /usuarios/:id"
+    ]
   });
 });
 
