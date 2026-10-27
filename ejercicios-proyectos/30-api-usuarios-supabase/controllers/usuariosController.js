@@ -1,7 +1,6 @@
 const supabase = require("../config/supabase");
 const crearError = require("../utils/crearError");
 
-// Traduce los errores de la base de datos que sabemos manejar
 function traducirError(error) {
   if (error.code === "23505") {
     return crearError(409, "Ese email ya está registrado");
@@ -9,7 +8,6 @@ function traducirError(error) {
   return error;
 }
 
-// GET /usuarios
 async function listar(req, res, next) {
   try {
     const { data, error } = await supabase
@@ -27,7 +25,6 @@ async function listar(req, res, next) {
   }
 }
 
-// GET /usuarios/:id
 async function obtener(req, res, next) {
   try {
     const { data, error } = await supabase
@@ -50,7 +47,6 @@ async function obtener(req, res, next) {
   }
 }
 
-// POST /usuarios
 async function crear(req, res, next) {
   try {
     const { nombre, email } = req.body;
@@ -71,7 +67,6 @@ async function crear(req, res, next) {
   }
 }
 
-// PUT /usuarios/:id
 async function actualizar(req, res, next) {
   try {
     const { nombre, email } = req.body;
@@ -101,7 +96,6 @@ async function actualizar(req, res, next) {
   }
 }
 
-// DELETE /usuarios/:id
 async function eliminar(req, res, next) {
   try {
     const { data, error } = await supabase
